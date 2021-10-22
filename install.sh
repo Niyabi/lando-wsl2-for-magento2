@@ -11,6 +11,7 @@ if [ -z "$(ls -A $WORKDIR)" ]; then
 
   lando start
   lando xdebug-off
+  lando composer self-update
   cd ./docroot
 
   echo "Creating magento project"
