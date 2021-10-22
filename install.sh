@@ -1,4 +1,28 @@
-bin/magento setup:install \
+#!/bin/bash
+
+source ./config/env
+WORKDIR=./docroot
+
+if [ ! -d $WORKDIR ]; then
+  mkdir ./docroot
+fi
+
+if [ -z "$(ls -A $WORKDIR)" ]; then
+
+  lando start
+  lando xdebug-off
+  cd ./docroot
+
+  echo "Creating magento project"
+  lando composer --no-plugins config --global http-basic.repo.magento.com $PUBLIC_KEY $PRIVATE_KEY
+  lando composer --no-plugins create-project --no-install --repository-url=https://repo.magento.com/ magento/project-community-edition .
+
+  echo "Installing magento dependencies"
+  lando composer --no-plugins config http-basic.repo.magento.com $PUBLIC_KEY $PRIVATE_KEY
+  lando composer --no-plugins install --no-interaction --ignore-platform-reqs
+
+  echo "Install magento"
+  lando ssh -c 'bin/magento setup:install \
     --db-host=database \
     --db-name=magento \
     --db-user=magento \
@@ -29,14 +53,28 @@ bin/magento setup:install \
     --admin-lastname=User \
     --admin-email=user@example.com \
     --admin-user=admin \
-    --admin-password=admin123
+    --admin-password=admin123'
 
-bin/magento config:set web/secure/base_url https://magento2.lndo.site/
-bin/magento config:set web/unsecure/base_url https://magento2.lndo.site/
-bin/magento module:disable Magento_TwoFactorAuth
-bin/magento setup:di:compile
+  lando ssh -c "bin/magento config:set web/secure/base_url https://magento2.lndo.site/"
+  lando ssh -c "bin/magento config:set web/unsecure/base_url https://magento2.lndo.site/"
+  lando ssh -c "bin/magento module:disable Magento_TwoFactorAuth"
+  lando ssh -c "bin/magento setup:di:compile"
 
-bin/magento deploy:mode:set developer
-bin/magento sampledata:deploy
-bin/magento setup:upgrade
-bin/magento c:f
+  echo "Set developer mode"
+  lando ssh -c "bin/magento deploy:mode:set developer"
+
+  if [ "$DEPLOY_SAMPLE_DATA" = true ]; then
+    echo "Deploying sample data"
+    lando ssh -c "bin/magento sampledata:deploy"
+    lando ssh -c "bin/magento setup:upgrade"
+    lando ssh -c "bin/magento c:f"
+  fi
+
+  lando ssh -c "bin/magento cron:install"
+  cd ../
+  lando restart
+  lando xdebug-off
+
+else
+  echo "docroot directory is not empty"
+fi

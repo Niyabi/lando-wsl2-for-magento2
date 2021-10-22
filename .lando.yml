@@ -15,6 +15,8 @@ proxy:
     - magento2.lndo.site
   mailhog:
     - mailhog.lndo.site
+  phpmyadmin:
+    - pma.lndo.site
 
 services:
   appserver:
@@ -41,6 +43,11 @@ services:
       password: magento
       database: magento
 
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database
+
   elasticsearch:
     type: elasticsearch:7.10.2
     portforward: 9200
@@ -62,9 +69,6 @@ services:
     portforward: 1025
     hogfrom:
       - appserver
-
-  node:
-    type: node:14
 
 tooling:
   xdebug-on:
