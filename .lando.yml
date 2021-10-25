@@ -45,6 +45,7 @@ services:
 
   phpmyadmin:
     type: phpmyadmin
+    postforward: true
     hosts:
       - database
 
