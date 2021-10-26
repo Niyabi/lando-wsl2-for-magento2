@@ -22,11 +22,12 @@ services:
   appserver:
     type: php:7.4
     build_as_root:
-      - apt update -y -q && apt install -y libxslt-dev libsodium-dev cron 
+      - apt update -y -q && apt install -y libxslt-dev libsodium-dev cron curl wget
       - docker-php-ext-install xsl sockets sodium
-      # - echo "vm.max_map_count=262144" >> /etc/sysctl.conf && sysctl -p
+    build:      
     run_as_root:
       - service cron start
+    run:
     xdebug: true
     overrides:
       environment:
@@ -55,8 +56,6 @@ services:
     type: elasticsearch:7.10.2
     portforward: 9200
     mem: 1025m
-    # build_as_root:
-    #   - echo "vm.max_map_count=262144" >> /etc/sysctl.conf && sysctl -p
     overrides:
       environment:
         - discovery.type=single-node
@@ -73,6 +72,12 @@ services:
     hogfrom:
       - appserver
 
+  node:
+    type: node:14
+    ssl: false
+    globals:
+      grunt-cli: latest
+
 tooling:
   xdebug-on:
     service: appserver
@@ -84,3 +89,10 @@ tooling:
     description: Disable xdebug
     cmd: rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     user: root
+  npm:
+    service: node
+  node:
+    service: node
+  grunt:
+    service: node
+

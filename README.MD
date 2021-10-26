@@ -96,8 +96,8 @@ lando node <command>
 lando npm <command>
 ```
 
-* Gulp command
+* Grunt command
 
 ```bash
-lando gulp <command>
+lando grunt <command>
 ```
