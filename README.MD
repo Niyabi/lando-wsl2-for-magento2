@@ -1,4 +1,5 @@
-# lando-wsl2-for-magento
+# lando-wsl2-for-magento2
+
 Local developement environment for Magento 2 based on Lando and WSL2. </br>
 Project is based on this **[article](https://www.liip.ch/en/blog/setup-drupal-and-lando-with-wsl2-on-windows)**.
 
@@ -81,4 +82,22 @@ $ lando xdebug-on
 
 ```bash
 $ lando xdebug-off
+```
+
+* Node command
+
+```bash
+lando node <command>
+```
+
+* NPM command
+
+```bash
+lando npm <command>
+```
+
+* Gulp command
+
+```bash
+lando gulp <command>
 ```

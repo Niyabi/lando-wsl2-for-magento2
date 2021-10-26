@@ -22,7 +22,9 @@ services:
   appserver:
     type: php:7.4
     build_as_root:
-      - apt update -y -q && apt install -y libxslt-dev cron && docker-php-ext-install xsl sockets sodium
+      - apt update -y -q && apt install -y libxslt-dev libsodium-dev cron 
+      - docker-php-ext-install xsl sockets sodium
+      # - echo "vm.max_map_count=262144" >> /etc/sysctl.conf && sysctl -p
     run_as_root:
       - service cron start
     xdebug: true
@@ -45,7 +47,7 @@ services:
 
   phpmyadmin:
     type: phpmyadmin
-    postforward: true
+    portforward: true
     hosts:
       - database
 
@@ -53,8 +55,8 @@ services:
     type: elasticsearch:7.10.2
     portforward: 9200
     mem: 1025m
-    build_as_root:
-      - echo "vm.max_map_count=262144" >> /etc/sysctl.d/elasticsearchSpecifications.conf && sysctl --system
+    # build_as_root:
+    #   - echo "vm.max_map_count=262144" >> /etc/sysctl.conf && sysctl -p
     overrides:
       environment:
         - discovery.type=single-node
