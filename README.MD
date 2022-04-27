@@ -10,16 +10,38 @@ Project is based on this **[article](https://www.liip.ch/en/blog/setup-drupal-an
 * [Docker](https://www.docker.com/products/docker-desktop)
 * [Lando](https://docs.lando.dev/)
 
-Here is **[article](https://www.liip.ch/en/blog/setup-drupal-and-lando-with-wsl2-on-windows)** how to setup Lando inside WSL2 Ubuntu
+Here is **[article](https://www.liip.ch/en/blog/setup-drupal-and-lando-with-wsl2-on-windows)** how to setup Lando inside WSL2 Ubuntu.
 
 ## Magento 2 installation
 
-Write your public and private access keys from Magento Marketplace into *config/env* file
+Write your public and private access keys from Magento Marketplace into *config/env* file and state if you need Magento Sample Data by setting DEPLOY_SAMPLE_DATA to true or false.
+Magento 2 will be installed in the *docroot* directory.
+After installation store will be available at *magento.lndo.site* and admin panel at *magento.lndo.site/admin* with user:
+name: admin
+password: admin123
+
+Database cridentials:
+user: magento
+password: magento
+database: magento
+
+Database internal (inside local env) connection: database:3306
+Database external (outside local env) connection: localhost:37013
+
+For magento console commands use:
+```bash
+$ lando console <command>
+```
+
+for example:
+```bash
+$ lando console cache:flush
+```
 
 Run *install.sh* script
 
 ```bash
-$ sudo ./install.sh
+$ bash ./install.sh
 ```
 
 ## Commands
@@ -36,6 +58,11 @@ $ lando start
 $ lando stop
 ```
 
+* Magento console command
+```bash
+$ lando console <command>
+```
+
 * Rebuild lando app
 
 ```bash
@@ -48,7 +75,7 @@ $ lando rebuild
 $ lando destroy
 ```
 
-* Import database
+* Import database (supports .sql and sql.gz files)
 
 ```bash
 $ lando db-import path/to/file.sql
