@@ -1,7 +1,7 @@
 name: magento
 recipe: lemp
 config:
-  webroot: docroot/pub
+  webroot: pub
   php: '7.4'
   database: mariadb:10.4
   xdebug: 'false'
