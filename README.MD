@@ -20,7 +20,7 @@ Copy **lando-wsl2-for-magento2** files to your Magento 2 project directory and r
 $ bash ./install.sh
 ```
 
-This will create local environment and set file permissions. Don't forget to import database by using ***lando db-import*** and set base url for Magento.
+This will create local environment and set file permissions. Don't forget to import database by using ***lando db-import*** and change database cridentials in *app/etc/env.php* then set base url for Magento.
 
 ```bash
 lando ssh -c "bin/magento config:set web/secure/base_url https://magento.lndo.site/"
