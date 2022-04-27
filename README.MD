@@ -14,18 +14,27 @@ Here is **[article](https://www.liip.ch/en/blog/setup-drupal-and-lando-with-wsl2
 
 ## Magento 2 installation
 
-Write your public and private access keys from Magento Marketplace into *config/env* file and state if you need Magento Sample Data by setting DEPLOY_SAMPLE_DATA to true or false.
-Magento 2 will be installed in the *docroot* directory.
-After installation store will be available at *magento.lndo.site* and admin panel at *magento.lndo.site/admin* with user:
-name: admin
-password: admin123
+This local environment is for Magento 2 clean installation, for existing project check [existing-project branch](https://github.com/Niyabi/lando-wsl2-for-magento2/tree/existing-project)
 
-Database cridentials:
-user: magento
-password: magento
+Write your public and private access keys from Magento Marketplace into *config/env* file and state if you need Magento Sample Data by setting DEPLOY_SAMPLE_DATA to true or false.
+
+Magento 2 will be installed in the *docroot* directory.
+After installation store will be available at *magento.lndo.site* and admin panel at *magento.lndo.site/admin* with user:</br>
+name: admin</br>
+password: admin123</br>
+
+To install Magento 2 run *install.sh* script
+
+```bash
+$ bash ./install.sh
+```
+
+Database cridentials:</br>
+user: magento</br>
+password: magento</br>
 database: magento
 
-Database internal (inside local env) connection: database:3306
+Database internal (inside local env) connection: database:3306</br>
 Database external (outside local env) connection: localhost:37013
 
 For magento console commands use:
@@ -36,12 +45,6 @@ $ lando console <command>
 for example:
 ```bash
 $ lando console cache:flush
-```
-
-Run *install.sh* script
-
-```bash
-$ bash ./install.sh
 ```
 
 ## Commands

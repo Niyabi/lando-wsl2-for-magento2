@@ -93,7 +93,7 @@ tooling:
   console:
     service: appserver
     description: Run magento console commands
-    cmd: /app/bin/magento
+    cmd: /app/docroot/bin/magento
 
   npm:
     service: node

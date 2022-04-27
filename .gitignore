@@ -1,3 +1,5 @@
 /docroot
 /php_error.log
 /xdebug.log
+.vscode
+.idea
